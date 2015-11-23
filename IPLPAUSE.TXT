@@ -1,0 +1,131 @@
+    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ³                                                                     ³
+    ³IPLPAUSE:  A small timer program for your CONFIG.SYS during startup. ³
+    ³--------   (IPL means Initial Program Load...also known as "booting" ³
+    ³           the system).                                              ³
+    ³                                                                     ³
+    ³      BY:  Knight Research - Copyright (c) 1993 All Rights Reserved. ³
+    ³      --                                                             ³
+    ³ License:  Give it away to all your friends, use it for private or   ³
+    ³ -------   commercial applications or whatever practical application ³
+    ³           you can find.                                             ³
+    ³                                                                     ³
+    ³Feedback:  Constructive feedback and suggestions can be sent via     ³
+    ³--------   Compuserve to:  71301,3400                                ³
+    ³                                                                     ³
+    ³           or mailed to:   Knight Research                           ³
+    ³                           P.O. Box 25285                            ³
+    ³                           St. Paul, Minnesota 55125                 ³
+    ³                           USA                                       ³
+    ³                                                                     ³
+    ³ Payment:  If you LIKE this program and USE it, drop me a note.      ³
+    ³ -------   I'll add you to my mailing list.                          ³
+    ³           If you LIKE this program and USE it, pass it on to at     ³
+    ³           least ONE other OS/2 user.                                ³
+    ³                                                                     ³
+    ³ Systems:  IPLPAUSE is a 16-bit application and should work well     ³
+    ³ -------   with any version of OS/2 since 1.1 (tested through        ³
+    ³           OS/2 2.1).                                                ³
+    ³                                                                     ³
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+    Description:  A small timer program, which when called from your
+    -----------   config.sys, allows you to press any key during system
+                  startup to "interrupt" the boot process, and places
+                  you at the C> prompt...Presentation Manager is not
+                  running at this point and you can freely copy your
+                  OS2.INI - OS2SYS.INI, modify your Startup.Cmd file,
+                  remove objects from the Startup folder or whatever
+                  maintenance you need to perform.
+
+                  After making your changes, type EXIT to continue the
+                  system startup and continue on into Presentation Manager.
+
+
+     Advantages:  IPLPAUSE allows you to STOP digging out the installation
+     ----------   or other boot diskettes everytime you want to start OS/2
+                  in "maintenance mode"...just to be able to copy or restore
+                  your .INI files. Or have you ever crashed your system and
+                  had OS/2 "automatically" remember all the objects that
+                  were running, and attempts to restart them the next time
+                  you boot-up? Its difficult to break into the
+                  automatic startup sequence with CNTL-BREAK or the
+                  <LEFT-CNTL> <LEFT SHIFT> <F1> key combination.
+
+                  Instead, when the system restarts, IPLPAUSE will give
+                  you 15 seconds (countdown style) whereby you can
+                  press any key to interrupt the system boot process, and
+                  nicely places you at the command prompt. If you don't
+                  press a key, the system will automatically continue on
+                  and boot OS/2. (If you're impatient, you can hit the
+                  <ESC> key to tell the system to skip the rest of the
+                  countdown and boot immediately).
+
+
+         Syntax:  Place in the CONFIG.SYS:
+         ------
+                  CALL=C:\OS2\CMD.EXE /C "C:\IPLPAUSE.EXE" & EXIT
+
+                  or
+
+                  CALL=C:\OS2\CMD.EXE /C "C:\IPLPAUSE.EXE 15" & EXIT
+
+                  The '15' refers to the number of seconds which IPLPAUSE
+                  will countdown from before automatically continuing.
+                  (If left blank, the default is 15 seconds).
+
+
+
+   Installation:  Copy the IPLPAUSE.EXE program to the C:\ directory.
+   ------------   (It doesn't really matter where you put it but this is
+                  the place I used in the example).
+                  Place a one line CALL in your CONFIG.SYS file...pick an
+                  appropriate spot near the top...perhaps after the
+                  SET COMSPEC= line. Type the line EXACTLY as you see it,
+                  or paste the line from the IPLPAUSE.DAT using your
+                  favorite editor.
+                  See the example below:
+                  .
+                  .
+                  .
+     (partial     PROTSHELL=C:\OS2\PMSHELL.EXE
+     CONFIG.SYS)  SET USER_INI=C:\OS2\OS2.INI
+                  SET SYSTEM_INI=C:\OS2\OS2SYS.INI
+                  SET OS2_SHELL=C:\OS2\CMD.EXE
+                  SET AUTOSTART=PROGRAMS,TASKLIST,FOLDERS
+                  SET RUNWORKPLACE=C:\OS2\PMSHELL.EXE
+                  SET COMSPEC=C:\OS2\CMD.EXE
+                  rem
+                  rem ***************************************************
+                  rem ***************************************************
+                  rem ***************************************************
+                  rem
+    Insert here==>CALL=C:\OS2\CMD.EXE /C "C:\IPLPAUSE.EXE 15" & EXIT
+    -----------   rem
+                  rem ***************************************************
+                  rem ***************************************************
+                  rem ***************************************************
+                  rem
+                  LIBPATH=C:\OS2\DLL;C:\OS2\MDOS;C:\;C:\IBMCOM\DLL;
+                  SET PATH=C:\OS2;C:\OS2\SYSTEM;C:\OS2\MDOS\WINOS2;
+                  SET DPATH=C:\OS2;C:\OS2\SYSTEM;C:\OS2\MDOS\WINOS2;
+                  .
+                  .
+                  .
+
+
+      Drawbacks:  IPLPAUSE is a normal ring-3 application. It does NOT
+      ---------   stop your system device drivers from starting up
+                  before it interrupts the boot process. (The program would
+                  have to be a device driver itself to accomplish this,
+                  and would require good testing to be sure it didn't cause
+                  conflicts with all the different system configurations
+                  in existence...but its not a bad idea).
+
+
+         Source:  The C source code is included with this program. IPLPAUSE
+         ------   was compiled with the MSC 6.0 compiler for backward
+                  16-bit compatability with OS/2 1.3 but the newer 32 bit
+                  compilers would have worked as well.
+
+
